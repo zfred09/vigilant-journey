@@ -1,23 +1,16 @@
 from flask import render_template, flash, redirect, url_for
-from app import app
+from app import app, db
 from app.forms import LoginForm
-
+from app.models import Recipes
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'username': 'Zach'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    recipe_id = 1
+    title = Recipes.query.filter_by(id=recipe_id).first()
+    ingredients = Recipes.get_ingredients(Recipes)
+
+    return render_template('index.html', title=title, recipe=recipe_id, ingredients=ingredients)
 
 
 @app.route('/login', methods=['GET', 'POST'])
