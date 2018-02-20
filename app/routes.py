@@ -1,16 +1,24 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db
 from app.forms import LoginForm
-from app.models import Recipes
+from app.models import Recipes, Ingredients
 
 @app.route('/')
 @app.route('/index')
 def index():
-    recipe_id = 1
+    recipe_id = 2
     title = Recipes.query.filter_by(id=recipe_id).first()
-    ingredients = Recipes.get_ingredients(Recipes)
+    ingredients = Ingredients.query.filter_by(recipe_id=recipe_id)
 
     return render_template('index.html', title=title, recipe=recipe_id, ingredients=ingredients)
+
+# to-do - add error handling
+@app.route('/recipes/<recipe>')
+def recipes(recipe):
+    title = Recipes.query.filter_by(id=recipe).first_or_404()
+    ingredients = Ingredients.query.filter_by(recipe_id=recipe)
+
+    return render_template('index.html', title=title, recipe=recipe, ingredients=ingredients)
 
 
 @app.route('/login', methods=['GET', 'POST'])

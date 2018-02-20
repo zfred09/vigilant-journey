@@ -10,12 +10,13 @@ class Recipes(db.Model):
     # backref sets the virtual field name for Ingredients' recipe_id field
     ingredients = db.relationship('Ingredients', backref='ingredients', lazy='dynamic')
 
-    def get_ingredients(self):
-        return Ingredients.query.filter_by(recipe_id=self.id)
+    def get_ingredients(recipe_id):
+        print(recipe_id)
+        return Ingredients.query.filter_by(ingredients=recipe_id)
 
     # Tells Python how to print objects of this class - for debugging
     def __repr__(self):
-        return 'Recipes {}>'.format(self.title)
+        return '<Recipes {}>'.format(self.title)
 
 class Ingredients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
