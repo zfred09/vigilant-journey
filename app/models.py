@@ -15,8 +15,8 @@ class Recipes(db.Model):
         return Ingredients.query.filter_by(ingredients=recipe_id)
 
     # Tells Python how to print objects of this class - for debugging
-    def __repr__(self):
-        return '<Recipes {}>'.format(self.title)
+    #def __repr__(self):
+     #   return '<Recipes {}>'.format(self.title)
 
 class Ingredients(db.Model):
     id = db.Column(db.Integer, primary_key=True)

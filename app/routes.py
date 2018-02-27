@@ -10,15 +10,15 @@ def index():
     title = Recipes.query.filter_by(id=recipe_id).first()
     ingredients = Ingredients.query.filter_by(recipe_id=recipe_id)
 
-    return render_template('index.html', title=title, recipe=recipe_id, ingredients=ingredients)
+    return render_template('index.html', title=title, ingredients=ingredients)
 
 # to-do - add error handling
-@app.route('/recipes/<recipe>')
-def recipes(recipe):
-    title = Recipes.query.filter_by(id=recipe).first_or_404()
-    ingredients = Ingredients.query.filter_by(recipe_id=recipe)
+@app.route('/recipes/<recipe_id>')
+def recipes(recipe_id):
+    recipe = Recipes.query.filter_by(id=recipe_id).first_or_404()
+    ingredients = Ingredients.query.filter_by(recipe_id=recipe_id)
 
-    return render_template('index.html', title=title, recipe=recipe, ingredients=ingredients)
+    return render_template('index.html', recipe=recipe, ingredients=ingredients)
 
 
 @app.route('/login', methods=['GET', 'POST'])

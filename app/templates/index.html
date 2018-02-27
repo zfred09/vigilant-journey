@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1>{{ title }} - {{ recipe }}</h1>
+	<h1>{{ recipe.title }}</h1>
+	<h3>Prep time: {{ recipe.prep_time }} minutes | Cook time: {{ recipe.cook_time_min }} minutes </h3>
 	{% for i in ingredients %}
-	<div><p>{{ i }}</p></div>
+	<div><p>{{ i.quantity }} {{ i.ingredient }}</p></div>
 	{% endfor %}
 {% endblock %}
