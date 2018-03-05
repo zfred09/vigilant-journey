@@ -2,6 +2,8 @@ from flask import render_template, flash, redirect, url_for
 from app import app, db
 from app.forms import LoginForm
 from app.models import Recipes, Ingredients
+from pyqrcode import pyqrcode
+import io
 
 @app.route('/')
 @app.route('/index')
@@ -29,3 +31,16 @@ def login():
                 form.username.data, form.remember_me.data))
             return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
+
+
+@app.route('/qrcode')
+def qrcode():
+    # render qrcode
+    url = pyqrcode.create('http://google.com')
+    stream = io.BytesIO()
+    url.svg(stream, scale=5)
+    return stream.getvalue(), 200, {
+        'Content-Type': 'image/svg+xml',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'}

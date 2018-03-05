@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>QR for: {{ recipe.title }}</h1>
+
+    <p><img id="qrcode" src="{{ url_for('qrcode') }}"></p>
+
+{% endblock %}
