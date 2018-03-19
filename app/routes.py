@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm
 from app.models import Recipes, Ingredients
@@ -22,6 +22,13 @@ def recipes(recipe_id):
 
     return render_template('index.html', recipe=recipe, ingredients=ingredients)
 
+# to-do - add error handling
+@app.route('/recipeCard/<recipe_id>')
+def recipeCard(recipe_id):
+    recipe = Recipes.query.filter_by(id=recipe_id).first_or_404()
+    ingredients = Ingredients.query.filter_by(recipe_id=recipe_id)
+
+    return render_template('recipeCard.html', recipe=recipe, ingredients=ingredients)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,11 +39,11 @@ def login():
             return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
-
-@app.route('/qrcode')
-def qrcode():
+@app.route('/qrcode/<targetRecipeId>')
+def qrcode(targetRecipeId):
     # render qrcode
-    url = pyqrcode.create('http://google.com')
+    targetURL = request.url_root + "recipes/" + targetRecipeId
+    url = pyqrcode.create(targetURL)
     stream = io.BytesIO()
     url.svg(stream, scale=5)
     return stream.getvalue(), 200, {
