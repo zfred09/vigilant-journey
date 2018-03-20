@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1>{{ recipe.title }}</h1>
-    <p><img id="qrcode" src="{{ url_for('qrcode', targetRecipeId=recipe.id) }}"></p>
-	<h3>Prep time: {{ recipe.prep_time }} minutes | Cook time: {{ recipe.cook_time_min }} minutes </h3>
+	<div style="padding:20px; border-style:solid; width:600px; height:350px;">
+        <h2>{{ recipe.title }}</h2>
+        <img id="qrcode" src="{{ url_for('qrcode', targetRecipeId=recipe.id) }}">
+        <p>Prep time: {{ recipe.prep_time }} minutes | Cook time: {{ recipe.cook_time_min }} minutes</p>
+    </div>
 {% endblock %}
