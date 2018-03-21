@@ -11,7 +11,6 @@ class Recipes(db.Model):
     ingredients = db.relationship('Ingredients', backref='ingredients', lazy='dynamic')
 
     def get_ingredients(recipe_id):
-        print(recipe_id)
         return Ingredients.query.filter_by(ingredients=recipe_id)
 
     # Tells Python how to print objects of this class - for debugging

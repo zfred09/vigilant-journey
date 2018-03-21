@@ -1,9 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
+	<!--
+
+	Need to create a template that extends this single recipe card to be re-usable
+
 	<div style="padding:20px; border-style:solid; width:600px; height:350px;">
         <h2>{{ recipe.title }}</h2>
         <img id="qrcode" src="{{ url_for('qrcode', targetRecipeId=recipe.id) }}">
         <p>Prep time: {{ recipe.prep_time }} minutes | Cook time: {{ recipe.cook_time_min }} minutes</p>
     </div>
+
+    -->
+
+    {% for r in recipe %}
+        <div style="padding:20px; border-style:solid; width:600px; height:350px;">
+            <h2>{{ r.title }}</h2>
+            <img id="qrcode" src="{{ url_for('qrcode', targetRecipeId=r.id) }}">
+            <p>Prep time: {{ r.prep_time }} minutes | Cook time: {{ r.cook_time_min }} minutes</p>
+        </div>
+	{% endfor %}
+
+
 {% endblock %}
