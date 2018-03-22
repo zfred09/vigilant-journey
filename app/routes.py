@@ -5,6 +5,7 @@ from app.models import Recipes, Ingredients
 from pyqrcode import pyqrcode
 import io
 
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -14,7 +15,8 @@ def index():
 
     return render_template('index.html', title=title, ingredients=ingredients)
 
-# to-do - add error handling
+
+# todo - add error handling
 @app.route('/recipes/<recipe_id>')
 def recipes(recipe_id):
     recipe = Recipes.query.filter_by(id=recipe_id).first_or_404()
@@ -22,20 +24,23 @@ def recipes(recipe_id):
 
     return render_template('index.html', recipe=recipe, ingredients=ingredients)
 
-# to-do - add error handling
-@app.route('/recipeCardList/')
-def recipeCardList():
-    recipe = Recipes.query.all()
+
+# todo - add error handling
+@app.route('/recipeCardList/<int:setLimit>')
+def recipeCardList(setLimit):
+    # todo create a sliding window of results
+    recipe = Recipes.query.limit(setLimit).all()
 
     return render_template('recipeCard.html', recipe=recipe)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-            flash('Login requested for user {}, remember_me={}'.format(
-                form.username.data, form.remember_me.data))
-            return redirect(url_for('index'))
+        flash('Login requested for user {}, remember_me={}'.format(
+            form.username.data, form.remember_me.data))
+        return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
 
