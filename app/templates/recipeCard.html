@@ -14,9 +14,9 @@
     -->
 
     {% for r in recipe %}
-        <div style="padding:20px; border-style:solid; width:600px; height:350px;">
-            <h2>{{ r.title }}</h2>
-            <img id="qrcode" src="{{ url_for('qrcode', targetRecipeId=r.id) }}">
+        <div style="display: block; padding:10px; margin:5px; float:left; border-style:solid; width:300px; height:250px;">
+            <h3>{{ r.title }}</h3>
+            <img id="qrcode" style="width:150px; height:150px;" src="{{ url_for('qrcode', targetRecipeId=r.id) }}">
             <p>Prep time: {{ r.prep_time }} minutes | Cook time: {{ r.cook_time_min }} minutes</p>
         </div>
 	{% endfor %}

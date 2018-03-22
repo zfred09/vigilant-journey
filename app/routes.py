@@ -23,14 +23,6 @@ def recipes(recipe_id):
     return render_template('index.html', recipe=recipe, ingredients=ingredients)
 
 # to-do - add error handling
-@app.route('/recipeCard/<recipe_id>')
-def recipeCardSingle(recipe_id):
-    recipe = Recipes.query.filter_by(id=recipe_id).first_or_404()
-    ingredients = Ingredients.query.filter_by(recipe_id=recipe_id)
-
-    return render_template('recipeCard.html', recipe=recipe, ingredients=ingredients)
-
-# to-do - add error handling
 @app.route('/recipeCardList/')
 def recipeCardList():
     recipe = Recipes.query.all()
