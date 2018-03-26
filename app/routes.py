@@ -1,10 +1,9 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, session, escape
 from app import app, db
 from app.forms import LoginForm
 from app.models import Recipes, Ingredients
 from pyqrcode import pyqrcode
 import io
-
 
 @app.route('/')
 @app.route('/index')
@@ -33,15 +32,36 @@ def recipeCardList(setLimit):
 
     return render_template('recipeCard.html', recipe=recipe)
 
+@app.route('/addToList/<recipe_id>')
+def addToList(recipe_id):
+    recipe = Recipes.query.filter_by(id=recipe_id).first_or_404()
+    ingredients = Ingredients.query.filter_by(recipe_id=recipe_id)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
-        return redirect(url_for('index'))
-    return render_template('login.html', title='Sign In', form=form)
+    for i in ingredients:
+        session['myList'].append(str(i.quantity) + " " + i.ingredient)
+
+    flash(recipe.title + " added to list")
+
+    return render_template('index.html', recipe=recipe, ingredients=ingredients)
+
+@app.route('/newList')
+def newList():
+    session['myList'].clear()
+    flash('New list started')
+
+    # Todo - eventually add some ability to create names or different lists here
+    return render_template('viewList.html', myList=session['myList'])
+
+@app.route('/viewList')
+def viewList():
+    # todo - escape this output?
+    return render_template('viewList.html', myList=session['myList'])
+
+@app.route('/clearList')
+def clearList():
+    session['myList'].clear()
+    flash('List cleared')
+    return render_template('viewList.html', myList=session['myList'])
 
 
 @app.route('/qrcode/<targetRecipeId>')
